@@ -48,14 +48,21 @@ nrows, ncols = summary.shape
 # Starting with pandas 1.3.0, the following line will raise a FutureWarning.
 # To fix this, replace write_only=True with engine_kwargs={"write_only": True}
 with pd.ExcelWriter(this_dir / "sales_report_openpyxl.xlsx",
-                    engine="openpyxl", write_only=True) as writer:
+                    engine="openpyxl",  
+                    #engine_kwargs={"write_only": True},
+                    mode='a',
+                    if_sheet_exists="overlay"
+                    ) as writer:
+    
+
+
     # pandas uses 0-based indices
-    summary.to_excel(writer, sheet_name="Sheet1",
+    summary.to_excel(writer, sheet_name="Hoja1",
                      startrow=startrow - 1, startcol=startcol - 1)
 
-    # Get openpyxl book and sheet object
+  # Get openpyxl book and sheet object
     book = writer.book
-    sheet = writer.sheets["Sheet1"]
+    sheet = writer.sheets["Hoja1"]
 
     # Set title
     sheet.cell(row=1, column=startcol, value="Sales Report")
