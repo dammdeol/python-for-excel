@@ -3,6 +3,10 @@ import pandas as pd
 
 
 @xw.func
-@xw.arg("df", pd.DataFrame, index=True, header=True)
-def describe(df):
-    return df.describe()
+@xw.arg("df", pd.DataFrame)
+@xw.ret(expand='table')
+def describe(df, selection=None):
+    if selection is not None:
+        return df.loc[:, selection].describe()
+    else:
+        return df.describe()
